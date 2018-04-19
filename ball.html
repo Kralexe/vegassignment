@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;    
+}
+</style>
+</head>
+<body onload="startGame()">
+<script>
+
+var myGamePiece;
+
+function startGame() {
+    myGamePiece = new component(230, 50, 20, 0, 2*Math.PI);
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);        
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    },    
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(x, y, r, s, e) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.s = s;
+    this.e = e;
+    this.gravity = 0.4;
+    this.gravitySpeed = 0;
+    this.bounce = 0.6;
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.beginPath();
+		ctx.arc(this.x,this.y,this.r,this.s,this.e);
+		ctx.stroke();
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.y += this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function() {
+        if (this.y > 250) {
+            this.y = 250;
+            this.gravitySpeed = -(this.gravitySpeed * this.bounce);
+            console.log(this.gravitySpeed);           
+        }
+
+    }
+}
+
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+
+</script>
+<button id="btn" type="button" class="btn btn-success" style="float:left" onclick="window.location.reload()">Click Me!</button>
+
+
+</body>
+</html>
