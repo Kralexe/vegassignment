@@ -12,14 +12,11 @@ canvas {
 </head>
 <body onload="startGame()">
 <script>
-
 var myGamePiece;
-
 function startGame() {
     myGamePiece = new component(230, 50, 20, 0, 2*Math.PI);
     myGameArea.start();
 }
-
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -36,7 +33,6 @@ var myGameArea = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
-
 function component(x, y, r, s, e) {
     this.x = x;
     this.y = y;
@@ -53,9 +49,11 @@ function component(x, y, r, s, e) {
 		ctx.stroke();
     }
     this.newPos = function() {
+		if (this.gravitySpeed !=-0.15) { 
         this.gravitySpeed += this.gravity;
         this.y += this.gravitySpeed;
         this.hitBottom();
+		}
     }
     this.hitBottom = function() {
         if (this.y > 250) {
@@ -63,16 +61,13 @@ function component(x, y, r, s, e) {
             this.gravitySpeed = -(this.gravitySpeed * this.bounce);
             console.log(this.gravitySpeed);           
         }
-
     }
 }
-
 function updateGameArea() {
     myGameArea.clear();
     myGamePiece.newPos();
     myGamePiece.update();
 }
-
 </script>
 <button id="btn" type="button" class="btn btn-success" style="float:left" onclick="window.location.reload()">Click Me!</button>
 
