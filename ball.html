@@ -49,11 +49,11 @@ function component(x, y, r, s, e) {
 		ctx.stroke();
     }
     this.newPos = function() {
-		if (this.gravitySpeed !=-0.15) { 
+	if (this.gravitySpeed !=-0.15) { 
         this.gravitySpeed += this.gravity;
         this.y += this.gravitySpeed;
         this.hitBottom();
-		}
+	}
     }
     this.hitBottom = function() {
         if (this.y > 250) {
